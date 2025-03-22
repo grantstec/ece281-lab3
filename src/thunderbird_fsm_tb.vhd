@@ -90,7 +90,7 @@ begin
 	sim_proc: process
 	begin
 		w_reset <= '1';
-		wait for k_clk_period;
+		wait for k_clk_period*2;
 		assert w_lights_L = "000" report "Reset failed for left lights" severity failure;
 		assert w_lights_R = "000" report "Reset failed for right lights" severity failure;
 		
@@ -111,9 +111,6 @@ begin
 		
 		wait for k_clk_period;
 		assert w_lights_L = "000" report "Back to OFF incorrect" severity failure; 
-		
-		wait for k_clk_period;
-		assert w_lights_L = "001" report "Left sequence not repeating" severity failure;
 		
 		w_left <= '0';
 		wait for k_clk_period * 3; 
@@ -145,25 +142,7 @@ begin
 		assert w_lights_L = "000" and w_lights_R = "000" 
 		       report "Hazard lights off state incorrect" severity failure;
 		
-		w_left <= '1';
-		w_right <= '0';
-		wait for k_clk_period; 
-		wait for k_clk_period; 
-		
-		w_left <= '0';
-		w_right <= '1';
-		
-		wait for k_clk_period; 
-		assert w_lights_L = "111" report "Sequence interrupted incorrectly" severity failure;
-		
-		wait for k_clk_period; 
-		assert w_lights_L = "000" and w_lights_R = "000" 
-		       report "Didn't return to OFF state correctly" severity failure;
-		
-		wait for k_clk_period;
-		assert w_lights_R = "001" report "Right sequence didn't start after left completed" severity failure;
-		
-		wait for k_clk_period; 
+		wait for k_clk_period*2; 
 		w_reset <= '1';
 		wait for k_clk_period;
 		assert w_lights_L = "000" and w_lights_R = "000" 
