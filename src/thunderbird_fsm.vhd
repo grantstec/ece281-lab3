@@ -96,9 +96,9 @@ end thunderbird_fsm;
 
 architecture thunderbird_fsm_arch of thunderbird_fsm is 
 
-	signal S_next : std_logic_vector(7 downto 0) :="00000001";
+	signal S_next : std_logic_vector(7 downto 0) :="10000000";
 
-	signal S : std_logic_vector(7 downto 0) :="00000001"; 
+	signal S : std_logic_vector(7 downto 0) :="10000000"; 
 	
 begin
 
@@ -111,7 +111,6 @@ begin
     S_next(1) <= S(2);
     S_next(0) <= S(1);
     
-    
     o_lights_L(2) <= S(6) or S(0);
     o_lights_L(1) <= S(6) or S(0) or S(1);
     o_lights_L(0) <= S(6) or S(0) or S(1) or S(2);
@@ -123,7 +122,7 @@ begin
     process(i_clk, i_reset)
     begin
         if (i_reset = '1') then
-            S <= "00000001";  -- Reset to initial state (bit 0 set)
+            S <= "10000000";  -- Reset to initial state (bit 0 set)
         elsif (rising_edge(i_clk)) then
             S <= S_next;      -- Update state on clock edge
         end if;
